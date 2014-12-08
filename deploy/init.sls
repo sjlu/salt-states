@@ -11,9 +11,12 @@ ssh_key:
     - name: {{key_path}}/.ssh/id_rsa
     - contents_pillar: deploy:ssh_key
     - mode: 400
+    - makedirs
   {%- if salt['pillar.get']('deploy:user') %}
     - user: {{ salt['pillar.get']('deploy:user') }}
     - group: {{ salt['pillar.get']('deploy:user') }}
+    - require:
+      - user: {{ salt['pillar.get']('deploy:user') }}
   {%- endif %}
     - require_in:
       - deploy
@@ -24,6 +27,9 @@ target_dir:
 deploy:
   require:
     - pkg: git
+  {%- if salt['pillar.get']('deploy:user') %}
+    - user: {{ salt['pillar.get']('deploy:user') }}
+  {%- endif %}
   git:
     - latest
     - name: {{ salt['pillar.get']('deploy:git', '') }}
