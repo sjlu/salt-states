@@ -11,7 +11,7 @@ ssh_key:
     - name: {{key_path}}/.ssh/id_rsa
     - contents_pillar: deploy:ssh_key
     - mode: 400
-    - makedirs
+    - makedirs: True
   {%- if salt['pillar.get']('deploy:user') %}
     - user: {{ salt['pillar.get']('deploy:user') }}
     - group: {{ salt['pillar.get']('deploy:user') }}
