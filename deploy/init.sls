@@ -24,5 +24,10 @@ deploy:
     - identity: /root/.ssh/id_rsa
   {%- endif %}
     - target: {{ target }}
+{% if salt['pillar.get']('deploy:cmd') %}
+  cmd.run:
+    - name: salt['pillar.get']('deploy:cmd')
+    - cwd: {{ target }}
+{%- endif %}
 {%- endif %}
 {%- endif %}
