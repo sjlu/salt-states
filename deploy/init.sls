@@ -15,8 +15,6 @@ ssh_key:
   {%- if salt['pillar.get']('deploy:user') %}
     - user: {{ salt['pillar.get']('deploy:user') }}
     - group: {{ salt['pillar.get']('deploy:user') }}
-    - require:
-      - user: {{ salt['pillar.get']('deploy:user') }}
   {%- endif %}
     - require_in:
       - deploy
