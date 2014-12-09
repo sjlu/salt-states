@@ -1,3 +1,6 @@
+include:
+  - git
+
 {%- if salt['pillar.get']('deploy') %}
 {%- if salt['pillar.get']('deploy:git') %}
 {%- set target = salt['pillar.get']('deploy:target', '') %}
