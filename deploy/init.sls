@@ -25,10 +25,10 @@ ssh_key:
     - user: {{ salt['pillar.get']('deploy:user') }}
     - group: {{ salt['pillar.get']('deploy:user') }}
   {%- endif %}
-    - require:
-      - ssh_dir
-    - require_in:
-      - deploy
+  require:
+    - ssh_dir
+  require_in:
+    - deploy
 {%- endif %}
 
 target_dir:
