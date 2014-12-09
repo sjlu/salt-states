@@ -36,13 +36,9 @@ create_target_dir:
   {%- endif %}
 
 do_deploy:
-  require:
-    - pkg: git
-  {%- if salt['pillar.get']('deploy:user') %}
-    - user: {{ salt['pillar.get']('deploy:user') }}
-  {%- endif %}
-  git:
-    - latest
+  git.latest:
+    - require:
+      - sls: git
     - name: {{ salt['pillar.get']('deploy:git', '') }}
     - rev: {{ salt['pillar.get']('deploy:branch', 'master') }}
   {%- if salt['pillar.get']('deploy:ssh_key') %}
