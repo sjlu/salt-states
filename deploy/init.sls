@@ -7,7 +7,7 @@
 {%- if salt['pillar.get']('deploy:user') %}
   {%- set key_path = '/home/' + salt['pillar.get']('deploy:user') %}
 {%- endif %}
-ssh_dir:
+create_ssh_dir:
   file.directory:
     - name: {{key_path}}/.ssh
     - mode: 0700
@@ -15,7 +15,7 @@ ssh_dir:
     - user: {{ salt['pillar.get']('deploy:user') }}
     - group: {{ salt['pillar.get']('deploy:user') }}
   {%- endif %}
-ssh_key:
+create_ssh_key:
   file.managed:
     - name: {{key_path}}/.ssh/id_rsa
     - contents_pillar: deploy:ssh_key
@@ -26,12 +26,12 @@ ssh_key:
     - group: {{ salt['pillar.get']('deploy:user') }}
   {%- endif %}
   require:
-    - ssh_dir
+    - create_ssh_dir
   require_in:
-    - deploy
+    - do_deploy
 {%- endif %}
 
-target_dir:
+create_target_dir:
   file.directory:
     - name: {{ target }}
   {%- if salt['pillar.get']('deploy:user') %}
@@ -39,7 +39,7 @@ target_dir:
     - group: {{ salt['pillar.get']('deploy:user') }}
   {%- endif %}
 
-deploy:
+do_deploy:
   require:
     - pkg: git
   {%- if salt['pillar.get']('deploy:user') %}
