@@ -51,14 +51,6 @@ do_deploy:
   {%- if salt['pillar.get']('deploy:user') %}
     - user: {{ salt['pillar.get']('deploy:user') }}
   {%- endif %}
-{% if salt['pillar.get']('deploy:cmd') %}
-  cmd.run:
-    - name: {{ salt['pillar.get']('deploy:cmd') }}
-    - cwd: {{ target }}
-  {%- if salt['pillar.get']('deploy:user') %}
-    - user: {{ salt['pillar.get']('deploy:user') }}
-  {%- endif %}
-{%- endif %}
 {% if salt['pillar.get']('deploy:config') %}
   file.managed:
     - name: {{ target }}/.env
@@ -68,6 +60,14 @@ do_deploy:
     - group: {{ salt['pillar.get']('deploy:user') }}
   {%- endif %}
     - template: jinja
+{%- endif %}
+{% if salt['pillar.get']('deploy:cmd') %}
+  cmd.run:
+    - name: {{ salt['pillar.get']('deploy:cmd') }}
+    - cwd: {{ target }}
+  {%- if salt['pillar.get']('deploy:user') %}
+    - user: {{ salt['pillar.get']('deploy:user') }}
+  {%- endif %}
 {%- endif %}
 
 {%- endif %}
