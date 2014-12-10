@@ -51,7 +51,9 @@ do_deploy:
   {%- if salt['pillar.get']('deploy:user') %}
     - user: {{ salt['pillar.get']('deploy:user') }}
   {%- endif %}
+
 {% if salt['pillar.get']('deploy:config') %}
+write_config:
   file.managed:
     - name: {{ target }}/.env
     - source: salt://deploy/env.config
@@ -61,7 +63,9 @@ do_deploy:
   {%- endif %}
     - template: jinja
 {%- endif %}
+
 {% if salt['pillar.get']('deploy:cmd') %}
+reboot_app:
   cmd.run:
     - name: {{ salt['pillar.get']('deploy:cmd') }}
     - cwd: {{ target }}
