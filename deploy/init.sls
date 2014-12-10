@@ -59,6 +59,16 @@ do_deploy:
     - user: {{ salt['pillar.get']('deploy:user') }}
   {%- endif %}
 {%- endif %}
+{% if salt['pillar.get']('deploy:config') %}
+  file.managed:
+    - name: {{ target }}/.env
+    - source: file://deploy/env.config
+  {%- if salt['pillar.get']('deploy:user') %}
+    - user: {{ salt['pillar.get']('deploy:user') }}
+    - group: {{ salt['pillar.get']('deploy:user') }}
+  {%- endif %}
+    - template: jinja
+{%- endif %}
 
 {%- endif %}
 {%- endif %}
