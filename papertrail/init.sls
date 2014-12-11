@@ -5,7 +5,7 @@ setup_rsyslog:
   file.append:
     - name: /etc/rsyslog.conf
     - text: |
-      *.* @logs.papertrailapp.com:{{ port }}
+        *.* @logs.papertrailapp.com:{{ port }}
   service:
     - running
     - restart: True
