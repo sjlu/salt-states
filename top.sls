@@ -1,9 +1,10 @@
 base:
   '*':
-    - fail2ban
     - iptables
-    - git
     - ppa
+    - fail2ban
+    - git
+    - papertrail
   '*node*':
     - nodejs
     - deploy
