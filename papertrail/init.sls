@@ -7,6 +7,7 @@ setup_rsyslog:
     - text: |
         *.* @logs.papertrailapp.com:{{ port }}
   service:
+    - name: rsyslog
     - running
     - restart: True
     - watch:
