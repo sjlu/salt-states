@@ -1,6 +1,6 @@
 {%- if salt['pillar.get']('papertrail') %}
-{%- if salt['pillar.get']('papertrail.port') %}
-{%- set port = salt['pillar.get']('papertrail.port') %}
+{%- if salt['pillar.get']('papertrail:port') %}
+{%- set port = salt['pillar.get']('papertrail:port') %}
 setup_rsyslog:
   file.append:
     - name: /etc/rsyslog.conf
