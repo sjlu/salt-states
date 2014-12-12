@@ -67,5 +67,6 @@ remote_syslog_initd:
     - restart: True
     - watch:
       - file: /etc/log_files.yml
+      - file: /logs/*
 {%- endif %}
 {%- endif %}
