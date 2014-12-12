@@ -24,7 +24,7 @@ setup_rsyslog:
     - restart: True
     - watch:
       - file: /etc/rsyslog.conf
-setup_remote_syslog
+setup_remote_syslog:
   archive:
     - extracted
     - name: /etc/remote_syslog
