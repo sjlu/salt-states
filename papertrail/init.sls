@@ -45,11 +45,5 @@ setup_remote_syslog:
   file.symlink:
     - name: /usr/local/bin/remote_syslog
     - target: /etc/remote_syslog
-  service:
-    - name: remote_syslog
-    - enable: True
-    - restart: True
-    - watch:
-      - file: /etc/log_files.yml
 {%- endif %}
 {%- endif %}
