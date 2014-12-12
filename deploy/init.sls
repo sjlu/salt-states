@@ -1,5 +1,6 @@
 include:
   - git
+  - papertrail
 
 {%- if salt['pillar.get']('deploy') %}
 {%- if salt['pillar.get']('deploy:git') %}
@@ -69,6 +70,8 @@ symlink_logs:
   file.symlink:
     - name: /logs/{{ salt['pillar.get']('deploy:logs').split('/')[-1] }}
     - target: {{ salt['pillar.get']('deploy:logs') }}
+    - require: 
+      - sls: papertrail
 {%- endif %}
 
 {% if salt['pillar.get']('deploy:cmd') %}
