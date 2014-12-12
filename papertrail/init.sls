@@ -34,12 +34,12 @@ add_remote_syslog_config:
   file.append:
     - name: /etc/log_files.yml
     - text: |
-      destination:
-        host: logs.papertrailapp.com
-        port: {{ port }}
-        protocol: tls
-      files:
-        - /logs/*
+        destination:
+          host: logs.papertrailapp.com
+          port: {{ port }}
+          protocol: tls
+        files:
+          - /logs/*
 setup_remote_syslog:
   archive:
     - extracted
@@ -51,7 +51,7 @@ setup_remote_syslog:
     - if_missing: /etc/remote_syslog/
   file.symlink:
     - name: /usr/local/bin/remote_syslog
-    - target: /etc/remote_syslog
+    - target: /etc/remote_syslog/remote_syslog
 remote_syslog_initd:
   file.managed:
     - name: /etc/init.d/remote_syslog
