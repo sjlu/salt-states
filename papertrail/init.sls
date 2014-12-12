@@ -1,3 +1,9 @@
+create_log_dir:
+  file.directory:
+    - name: /logs
+    - user: root
+    - group: root
+    - mode: 777
 {%- if salt['pillar.get']('papertrail') %}
 {%- if salt['pillar.get']('papertrail:port') %}
 {%- set port = salt['pillar.get']('papertrail:port') %}
@@ -24,12 +30,6 @@ setup_rsyslog:
     - restart: True
     - watch:
       - file: /etc/rsyslog.conf
-create_log_dir:
-  file.directory:
-    - name: /logs
-    - user: root
-    - group: root
-    - mode: 777
 add_remote_syslog_config:
   file.append:
     - name: /etc/log_files.yml
