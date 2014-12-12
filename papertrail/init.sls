@@ -39,7 +39,7 @@ add_remote_syslog_config:
           port: {{ port }}
           protocol: tls
         files:
-          - /logs/*
+          - /logs/**/*
 setup_remote_syslog:
   archive:
     - extracted
