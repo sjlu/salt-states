@@ -48,7 +48,7 @@ setup_remote_syslog:
   service:
     - name: remote_syslog
     - running
-    - enable: True
+    - enabled: True
     - restart: True
     - watch:
       - file: /etc/log_files.yml
