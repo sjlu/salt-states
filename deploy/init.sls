@@ -64,6 +64,13 @@ write_config:
     - template: jinja
 {%- endif %}
 
+{%- if salt['pillar.get']('deploy:logs') %}
+symlink_logs:
+  file.symlink:
+    - name: /logs/
+    - target: {{ salt['pillar.get']('deploy:logs') %}
+{%- endif %}
+
 {% if salt['pillar.get']('deploy:cmd') %}
 reboot_app:
   cmd.run:
