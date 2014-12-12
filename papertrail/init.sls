@@ -41,7 +41,7 @@ setup_remote_syslog:
     - source_hash: md5=e08f03664bb097cb91c96dd2d4e0f041
     - archive_format: tar
     - tar_options: v
-    - if_missing: /etc/remote_syslog
+    - if_missing: /etc/remote_syslog/
   file.symlink:
     - name: /usr/local/bin/remote_syslog
     - target: /etc/remote_syslog
