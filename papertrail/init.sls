@@ -36,5 +36,16 @@ setup_remote_syslog
   file.symlink
     - name: /usr/local/bin/remote_syslog
     - target: /etc/remote_syslog
+  service:
+    - name: remote_syslog
+    - enable: True
+  file.append:
+    - name: /etc/log_files.yml
+    - text: |
+      destination:
+        host: logs.papertrailapp.com
+        port: {{ port }}
+        protocol: tls
+      files:
 {%- endif %}
 {%- endif %}
