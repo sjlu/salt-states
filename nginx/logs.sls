@@ -4,4 +4,4 @@ nginx_log:
     - text: |
         - /var/log/nginx/error.log
     - require:
-      - file: /etc/log_files.yml
+      - test -f /testfile
