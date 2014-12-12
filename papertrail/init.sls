@@ -24,6 +24,15 @@ setup_rsyslog:
     - restart: True
     - watch:
       - file: /etc/rsyslog.conf
+add_remote_syslog_config:
+  file.append:
+    - name: /etc/log_files.yml
+    - text: |
+      destination:
+        host: logs.papertrailapp.com
+        port: {{ port }}
+        protocol: tls
+      files:
 setup_remote_syslog:
   archive:
     - extracted
@@ -39,13 +48,8 @@ setup_remote_syslog:
   service:
     - name: remote_syslog
     - enable: True
-  file.append:
-    - name: /etc/log_files.yml
-    - text: |
-      destination:
-        host: logs.papertrailapp.com
-        port: {{ port }}
-        protocol: tls
-      files:
+    - restart: True
+    - watch:
+      - file: /etc/log_files.yml
 {%- endif %}
 {%- endif %}
