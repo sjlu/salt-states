@@ -24,5 +24,17 @@ setup_rsyslog:
     - restart: True
     - watch:
       - file: /etc/rsyslog.conf
+setup_remote_syslog
+  archive:
+    - extracted
+    - name: /etc/remote_syslog
+    - source: https://github.com/papertrail/remote_syslog2/releases/download/v0.13/remote_syslog_linux_amd64.tar.gz
+    - source_hash: md5=e08f03664bb097cb91c96dd2d4e0f041
+    - archive_format: tar
+    - tar_options: v
+    - if_missing /etc/remote_syslog
+  file.symlink
+    - name: /usr/local/bin/remote_syslog
+    - target: /etc/remote_syslog
 {%- endif %}
 {%- endif %}
