@@ -68,7 +68,7 @@ write_config:
 symlink_logs:
   file.symlink:
     - name: /logs/
-    - target: {{ salt['pillar.get']('deploy:logs') %}
+    - target: {{ salt['pillar.get']('deploy:logs') }}
 {%- endif %}
 
 {% if salt['pillar.get']('deploy:cmd') %}
