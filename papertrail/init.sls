@@ -33,7 +33,7 @@ setup_remote_syslog:
     - archive_format: tar
     - tar_options: v
     - if_missing /etc/remote_syslog
-  file.symlink
+  file.symlink:
     - name: /usr/local/bin/remote_syslog
     - target: /etc/remote_syslog
   service:
