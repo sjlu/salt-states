@@ -24,6 +24,12 @@ setup_rsyslog:
     - restart: True
     - watch:
       - file: /etc/rsyslog.conf
+create_log_dir:
+  file.directory:
+    - name: /logs
+    - user: root
+    - group: root
+    - mode: 777
 add_remote_syslog_config:
   file.append:
     - name: /etc/log_files.yml
@@ -33,6 +39,7 @@ add_remote_syslog_config:
         port: {{ port }}
         protocol: tls
       files:
+        - /logs/*
 setup_remote_syslog:
   archive:
     - extracted

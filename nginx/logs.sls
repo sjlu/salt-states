@@ -1,7 +1,6 @@
 nginx_log:
-  file.append:
-    - name: /etc/log_files.yml
-    - text: |
-        - /var/log/nginx/error.log
-    - require:
-      - test -f /testfile
+  file.symlink:
+    - name: /logs/nginx_error.log
+    - target: /var/log/nginx/error.log
+
+
