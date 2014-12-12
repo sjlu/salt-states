@@ -52,5 +52,20 @@ setup_remote_syslog:
     - restart: True
     - watch:
       - file: /etc/log_files.yml
+remote_syslog_initd:
+  file.managed:
+    - name: /etc/init.d/remote_syslog
+    - source: https://raw.githubusercontent.com/papertrail/remote_syslog2/master/examples/remote_syslog.init.d
+    - source_hash: md5=8ebe6a3cf984a1440429aec17e6cd4b5
+    - mode: 0755
+    - user: root
+    - group: root
+  service:
+    - name: remote_syslog
+    - enable: True
+    - running
+    - restart: True
+    - watch:
+      - file: /etc/log_files.yml
 {%- endif %}
 {%- endif %}
