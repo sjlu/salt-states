@@ -67,7 +67,7 @@ write_config:
 {%- if salt['pillar.get']('deploy:logs') %}
 symlink_logs:
   file.symlink:
-    - name: /logs/
+    - name: /logs/{{ salt['pillar.get']('deploy:logs').split('/')[-1] }}
     - target: {{ salt['pillar.get']('deploy:logs') }}
 {%- endif %}
 
