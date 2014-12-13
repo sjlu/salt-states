@@ -18,12 +18,27 @@ mongodb_log:
     - name: /logs/mongod.log
     - target: /var/log/mongodb/mongod.log
 
+mongodb_service:
+  service:
+    - name: mongod
+    - running
+    - restart: True
+    - watch:
+      - file: /etc/mongod.conf
+
 {%- if salt['pillar.get']('mongodb:replica') and salt['pillar.get']('mongodb:replica:key') and salt['pillar.get']('mongodb:replica:glob') %}
 mongodb_keyfile:
   file.managed:
     - name: /var/lib/mongodb/keyfile
     - contents_pillar: mongodb:replica:key
     - mode: 0600
+
+mongodb_replica_config:
+  file.append:
+    - name: /etc/mongod.conf
+    - text: |
+        replSet=rs0
+        keyFile=/var/lib/mongodb/keyfile
 
 mongodb_setup_replica:
   file.managed:
@@ -44,17 +59,15 @@ mongodb_create_user:
   mongodb_user.present:
     - name: 'root'
     - passwd: {{salt['pillar.get']('mongodb:auth')}}
-{%- endif %}
-
-mongodb_service:
-  file:
-    - managed
+mongodb_set_auth:
+  file.append:
     - name: /etc/mongod.conf
-    - source: salt://mongodb/files/mongod.conf
-    - template: jinja
-  service:
-    - name: mongod
-    - running
-    - restart: True
-    - watch:
-      - file: /etc/mongod.conf
+    - text: |
+        auth=True
+{%- else %}
+mongodb_local_only:
+  file.append:
+    - name: /etc/mongod.conf
+    - text: |
+        bind_ip: 127.0.0.1
+{%- endif %}
