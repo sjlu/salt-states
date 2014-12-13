@@ -1,5 +1,5 @@
 {%- set glob = salt['pillar.get']('mongodb:replica:glob') %}
-var rsconf = {_id : "{{glob}}", members: [
+var rsconf = {_id : "rs0", members: [
   {%- set count = 0 %}
   {%- for server, addrs in salt['mine.get'](glob, 'public_ip_addrs', expr_form='glob').items() %}
     {
