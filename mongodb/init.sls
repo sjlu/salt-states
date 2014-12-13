@@ -39,6 +39,13 @@ mongodb_setup_replica:
       - file: /var/lib/mongodb/setup_replica.js
 {%- endif %}
 
+{%- if salt['pillar.get']('mongodb:auth') %}
+mongodb_create_user:
+  mongodb_user.present:
+    - name: 'root'
+    - passwd: {{salt['pillar.get']('mongodb:auth')}}
+{%- endif %}
+
 mongodb_service:
   file:
     - managed

@@ -10,3 +10,5 @@ base:
     - deploy
   '*nginx*':
     - nginx
+  '*mongodb*':
+    - mongodb
