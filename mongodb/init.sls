@@ -23,7 +23,7 @@ mongodb_service:
     - name: mongod
     - running
     - restart: True
-    - watch:
+    - onchanges:
       - file: /etc/mongod.conf
 
 {%- if salt['pillar.get']('mongodb:replica') and salt['pillar.get']('mongodb:replica:key') and salt['pillar.get']('mongodb:replica:glob') %}
