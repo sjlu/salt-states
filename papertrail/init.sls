@@ -60,6 +60,7 @@ remote_syslog_initd:
     - mode: 0755
     - user: root
     - group: root
+remote_syslog_start:
   service:
     - name: remote_syslog
     - enable: True
