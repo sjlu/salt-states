@@ -3,7 +3,7 @@ var rsconf = {_id : "rs0", members: [
   {%- set count = 0 %}
   {%- for server, addrs in salt['mine.get'](glob, 'public_ip_addrs', expr_form='glob').items() %}
     {
-      _id: count
+      _id: {{ count }},
       host: '{{ addrs[0] }}:27017',
     },
     {%- set count = count + 1 %}
