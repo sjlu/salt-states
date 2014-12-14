@@ -58,7 +58,7 @@ mongodb_set_auth:
 mongodb_bind_all:
   file.comment:
     - name: /etc/mongod.conf
-    - regex: ^bind 127.0.0.1
+    - regex: ^bind_ip.*
     - char: #
 {%- endif %}
 
