@@ -12,6 +12,11 @@ base:
     - nginx
   '*mongodb*':
     - mongodb
-  '*mongodb*01*':
+  '*mongodb or *mongodb*1':
+    - mongodb.auth.create
+    - mongodb.auth
+    - mongodb.replica
+    - mongodb.replica.start
+  '*mongodb[2-99]':
     - mongodb.auth
     - mongodb.replica
