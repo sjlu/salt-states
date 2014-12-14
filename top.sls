@@ -12,3 +12,5 @@ base:
     - nginx
   '*mongodb*':
     - mongodb
+    - mongodb.replica
+    - mongodb.auth
