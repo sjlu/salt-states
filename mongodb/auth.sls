@@ -1,10 +1,4 @@
 {%- if salt['pillar.get']('mongodb:auth') %}
-mongod:
-  service:
-    - running
-    - restart: True
-    - listen:
-      - file: /etc/mongod.conf
 mongodb_create_user:
   mongodb_user.present:
     - name: 'root'

@@ -1,10 +1,4 @@
 {%- if salt['pillar.get']('mongodb:replica') and salt['pillar.get']('mongodb:replica:key') and salt['pillar.get']('mongodb:replica:glob') %}
-mongod:
-  service:
-    - running
-    - restart: True
-    - listen:
-      - file: /etc/mongod.conf
 mongodb_keyfile:
   file.managed:
     - name: /var/lib/mongodb/keyfile
