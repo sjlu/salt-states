@@ -14,4 +14,5 @@ mongodb_create_user:
   mongodb_user.present:
     - name: root
     - passwd: {{ password }}
+    - database: admin
 {%- endif %}
