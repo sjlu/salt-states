@@ -15,12 +15,6 @@ mongodb_log:
   file.symlink:
     - name: /logs/mongod.log
     - target: /var/log/mongodb/mongod.log
-mongod:
-  service:
-    - running
-    - enable: True
-    - onchanges:
-      - file: /etc/mongod.conf
 
 {%- if salt['pillar.get']('mongodb:replica') and salt['pillar.get']('mongodb:replica:key') and salt['pillar.get']('mongodb:replica:glob') %}
 mongodb_keyfile:
@@ -51,10 +45,11 @@ mongodb_setup_replica:
 {%- endif %}
 
 {%- if salt['pillar.get']('mongodb:auth') %}
+{%- set password = salt['pillar.get']('mongodb:auth') %}
 mongodb_create_user:
-  mongodb_user.present:
-    - name: 'root'
-    - passwd: {{salt['pillar.get']('mongodb:auth')}}
+  cmd.run:
+    - name: mongo --eval 'db.createUser({user:"root",pwd: "{{password}}",roles:[{role: "root",db:"admin"}]});' admin
+    - unless: mongo --eval 'db.system.users.find({user:"root"}).count()' admin
 mongodb_set_auth:
   file.append:
     - name: /etc/mongod.conf
@@ -66,3 +61,10 @@ mongodb_bind_all:
     - regex: ^bind 127.0.0.1
     - char: #
 {%- endif %}
+
+mongod:
+  service:
+    - running
+    - enable: True
+    - watch:
+      - file: /etc/mongod.conf
