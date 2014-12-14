@@ -20,4 +20,7 @@ mongodb_setup_replica:
     - group: root
     - mode: 644
     - template: jinja
+mongodb_replica_restart:
+  cmd.run:
+    - name: service mongod restart
 {%- endif %}

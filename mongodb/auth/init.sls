@@ -14,4 +14,7 @@ mongodb_set_auth:
     - name: /etc/mongod.conf
     - text: |
         auth=True
+mongodb_auth_restart
+  cmd.run:
+    - name: service mongod restart
 {%- endif %}

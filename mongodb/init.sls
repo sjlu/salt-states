@@ -20,5 +20,3 @@ mongod:
   service:
     - running
     - enable: True
-    - watch:
-      - file: /etc/mongod.conf
