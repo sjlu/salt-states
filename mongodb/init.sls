@@ -30,7 +30,7 @@ mongodb_set_auth:
 mongodb_comment_out_local:
   file.comment:
     - name: /etc/mongod.conf
-    - regex: ^bind_ip = 127.0.0.1$
+    - regex: ^bind_ip = 127\.0\.0\.1$
     - char: #
 mongodb_add_all_ips:
   file.append:
