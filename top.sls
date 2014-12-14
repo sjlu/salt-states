@@ -17,6 +17,6 @@ base:
     - mongodb.auth
     - mongodb.replica
     - mongodb.replica.start
-  '*mongodb[2-99]':
+  '*mongodb*[2-99]':
     - mongodb.auth
     - mongodb.replica
