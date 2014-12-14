@@ -17,4 +17,6 @@ mongodb_set_auth:
 mongodb_auth_restart:
   cmd.run:
     - name: service mongod restart
+    - onchanges:
+      - file: /etc/mongod.conf
 {%- endif %}

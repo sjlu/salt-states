@@ -23,4 +23,6 @@ mongodb_setup_replica:
 mongodb_replica_restart:
   cmd.run:
     - name: service mongod restart
+    - onchanges:
+      - file: /etc/mongod.conf
 {%- endif %}
