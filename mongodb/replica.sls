@@ -1,4 +1,4 @@
-mongodb_setup_replica:
+mongodb_boot_replica:
   file.managed:
     - name: /var/lib/mongodb/replica.js
     - source: salt://mongodb/files/replica.js
