@@ -64,7 +64,7 @@ mongodb_add_all_ips:
   file.append:
     - name: /etc/mongod.conf
     - text: |
-        bind_ip = 127.0.0.1{%- for ip in salt['network.ip_addrs'] %},{{ip}}{%- endfor %}
+        bind_ip = 127.0.0.1{%- for ip in salt['network.ip_addrs']() %},{{ip}}{%- endfor %}
 {%- endif %}
 
 mongod:
