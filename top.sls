@@ -20,3 +20,5 @@ base:
   '*mongodb*[2-99]':
     - mongodb.auth
     - mongodb.replica
+  '*redis*':
+    - redis

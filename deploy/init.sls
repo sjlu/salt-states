@@ -57,7 +57,7 @@ do_deploy:
 write_config:
   file.managed:
     - name: {{ target }}/.env
-    - source: salt://deploy/env.config
+    - source: salt://deploy/files/env
   {%- if salt['pillar.get']('deploy:user') %}
     - user: {{ salt['pillar.get']('deploy:user') }}
     - group: {{ salt['pillar.get']('deploy:user') }}
@@ -70,7 +70,7 @@ symlink_logs:
   file.symlink:
     - name: /logs/{{ salt['pillar.get']('deploy:logs').split('/')[-1] }}
     - target: {{ salt['pillar.get']('deploy:logs') }}
-    - require: 
+    - require:
       - sls: papertrail
 {%- endif %}
 
