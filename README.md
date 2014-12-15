@@ -19,6 +19,7 @@ The states provided are:
 These are just some sample pillars that you're able ot use.
 
 * saltmine.sls
+
         mine_functions:
           network.ip_addrs: [eth0]
           public_ip_addrs:
@@ -27,6 +28,7 @@ These are just some sample pillars that you're able ot use.
           private_ip_addrs:
             mine_function: network.ip_addrs
             cidr: 10.32.0.0/16 # change this according to your local network cidr
+            
 * deploy.sls
       deploy:
         config:
