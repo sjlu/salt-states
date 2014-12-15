@@ -1,8 +1,6 @@
 redis_install:
   pkg.installed:
     - name: redis-server
-  requires:
-    - ppa
 
 redis_log_dir:
   file.directory:
