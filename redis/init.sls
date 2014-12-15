@@ -2,17 +2,10 @@ redis_install:
   pkg.installed:
     - name: redis-server
 
-redis_log_dir:
-  file.directory:
-    - name: /var/log/redis
-    - mode: 755
-    - user: redis
-    - group: redis
-
 redis_log:
   file.symlink:
     - name: /logs/redis.log
-    - target: /var/log/redis/redis.log
+    - target: /var/log/redis/redis-server.log
     - force: True
 
 redis_service:
