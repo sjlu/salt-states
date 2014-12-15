@@ -14,11 +14,40 @@ The states provided are:
 * papertrail
   * installs remote_syslog2
 
-## pillars
+## getting started
 
-These are just some sample pillars that you're able ot use.
+* had to get salt installed
 
-* saltmine.sls
+        apt-get install salt-master saltcloud
+
+* configure salt-master `/etc/salt/master`
+  * change the `interface` to an IP to bind to
+  * look for `fileserver_backend` and enable `git`
+  * enabled `gitfs_remotes` with `https://github.com/sjlu/salt-states`
+  * added `pillar_roots` with `/srv/pillar`
+
+* configure salt-cloud `/etc/salt/cloud`
+  * added `provider: do`
+  * added `minion: master: IP`
+  * added `/etc/salt/cloud.providers.d/digital_ocean.conf`
+
+          do:
+            provider: digital_ocean
+            client_key: # https://cloud.digitalocean.com/api_access
+            api_key: # https://cloud.digitalocean.com/api_access
+            ssh_key_name: salt
+            ssh_key_file: /root/.ssh/id_rsa
+
+  * added `/etc/salt/cloud.profiles.d/digital_ocean.confg`
+
+          ny3-micro:
+            provider: do
+            image: 14.04 x64
+            size: 512MB
+            location: New York 3
+            private_networking: True
+
+* used saltmine pillar which mines the private ip addresses from the boxes `/srv/pillar/saltmine.sls`
 
         mine_functions:
           network.ip_addrs: [eth0]
@@ -28,6 +57,24 @@ These are just some sample pillars that you're able ot use.
           private_ip_addrs:
             mine_function: network.ip_addrs
             cidr: 10.32.0.0/16 # change this according to your local network cidr
+
+* added `/srv/pillar/top.sls`
+
+        base:
+          '*':
+            - saltmine
+
+* spun up an instance
+
+        salt-cloud -p ny3-micro instance
+
+* bootstrapped
+
+        salt 'instance' state.highstate
+
+## pillars
+
+These are just some sample pillars that you're able ot use.
 
 * deploy.sls
 
@@ -67,6 +114,9 @@ These are just some sample pillars that you're able ot use.
               # openssl rand -base64 741
 
 ## notes
+
+* because saltstack runs in parallel for servers, the mongodb slaves could build slower than the master. if that's the case, you'll see an error. all you need to do is re-run and the replica init file will run successfully.
+* built on top of digital ocean in mind
 
 ## license
 
