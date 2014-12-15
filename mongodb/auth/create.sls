@@ -21,5 +21,6 @@ mongodb_create_user:
 #       - pip: pymongo
   cmd.run:
     - name: mongo admin --eval 'db.createUser({user:"root",pwd:"{{ password }}",roles:["root"]})'
-    - unless: grep 'auth=True' /etc/mongod.conf
+    - unless:
+      - grep 'auth=True' /etc/mongod.conf
 {%- endif %}
