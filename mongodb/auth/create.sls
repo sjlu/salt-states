@@ -11,12 +11,15 @@ pymongo_package:
       - pkg: python_pip
 
 mongodb_create_user:
-  mongodb_user.present:
-    - name: root
-    - passwd: {{ password }}
-    - database: admin
-    - host: localhost
-    - port: 27017
-    - require:
-      - pip: pymongo
+#   mongodb_user.present:
+#     - name: root
+#     - passwd: {{ password }}
+#     - database: admin
+#     - host: localhost
+#     - port: 27017
+#     - require:
+#       - pip: pymongo
+  cmd.run:
+    - name: mongo admin --exec 'db.createUser({user:"root",pwd:"{{ password }}",roles:["root"]})'
+    - unless: grep -Fxq 'auth=True' /etc/mongod.conf
 {%- endif %}
