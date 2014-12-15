@@ -15,4 +15,9 @@ mongodb_create_user:
     - name: root
     - passwd: {{ password }}
     - database: admin
+    - host: localhost
+    - port: 27017
+    - require:
+      - pip: pymongo
+      - service: mongodb
 {%- endif %}
