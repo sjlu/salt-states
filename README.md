@@ -69,6 +69,8 @@ The states provided are:
 
         salt-cloud -p ny3-micro instance
 
+    * remember to set the hostname to a pattern that will bootstrap the server. for example 'mongodb01' will bootstrap that server with mongodb
+
 * bootstrapped
 
         salt 'instance' state.highstate
