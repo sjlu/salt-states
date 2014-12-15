@@ -19,5 +19,4 @@ mongodb_create_user:
     - port: 27017
     - require:
       - pip: pymongo
-      - service: mongodb
 {%- endif %}
