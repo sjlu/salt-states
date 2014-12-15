@@ -27,4 +27,5 @@ redis_conf:
   file.managed:
     - name: /etc/redis/redis.conf
     - source: salt://redis/files/redis.conf
+    - template: jinja
 
