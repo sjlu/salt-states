@@ -1,5 +1,6 @@
 base:
   '*':
+    - essential
     - iptables
     - ppa
     - fail2ban
