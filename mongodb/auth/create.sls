@@ -20,6 +20,6 @@ mongodb_create_user:
 #     - require:
 #       - pip: pymongo
   cmd.run:
-    - name: mongo admin --exec 'db.createUser({user:"root",pwd:"{{ password }}",roles:["root"]})'
+    - name: mongo admin --eval 'db.createUser({user:"root",pwd:"{{ password }}",roles:["root"]})'
     - unless: grep -Fxq 'auth=True' /etc/mongod.conf
 {%- endif %}
