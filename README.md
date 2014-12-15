@@ -13,6 +13,7 @@ The states provided are:
   * can run post deploy hook
 * papertrail
   * installs remote_syslog2
+* redis
 
 ## getting started
 
@@ -112,6 +113,11 @@ These are just some sample pillars that you're able ot use.
             key: |
               # generated ssl key
               # openssl rand -base64 741
+
+* redis.sls
+
+        redis:
+          auth: # auth key
 
 ## notes
 
