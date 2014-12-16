@@ -19,7 +19,12 @@ The states provided are:
 
 * had to get salt installed
 
-        apt-get install salt-master saltcloud
+        apt-get install salt-master salt-cloud salt-api
+
+### salt master
+
+the salt master pretty much controls all the servers and what is
+applied to them.
 
 * configure salt-master `/etc/salt/master`
   * change the `interface` to an IP to bind to
@@ -27,26 +32,44 @@ The states provided are:
   * enabled `gitfs_remotes` with `https://github.com/sjlu/salt-states`
   * added `pillar_roots` with `/srv/pillar`
 
+* to apply your states run highstate
+
+        salt '*' state.highstate
+
+### salt cloud
+
+the salt cloud helps provision minions. in my example I use digital ocean
+
 * configure salt-cloud `/etc/salt/cloud`
-  * added `provider: do`
-  * added `minion: master: IP`
-  * added `/etc/salt/cloud.providers.d/digital_ocean.conf`
+  * appended
 
-          do:
-            provider: digital_ocean
-            client_key: # https://cloud.digitalocean.com/api_access
-            api_key: # https://cloud.digitalocean.com/api_access
-            ssh_key_name: salt
-            ssh_key_file: /root/.ssh/id_rsa
+          provider: do
+          minion:
+            master: 0.0.0.0 # replace this with your IP
 
-  * added `/etc/salt/cloud.profiles.d/digital_ocean.confg`
+* created `/etc/salt/cloud.providers.d/digital_ocean.conf`
 
-          ny3-micro:
-            provider: do
-            image: 14.04 x64
-            size: 512MB
-            location: New York 3
-            private_networking: True
+        do:
+          provider: digital_ocean
+          client_key: # https://cloud.digitalocean.com/api_access
+          api_key: # https://cloud.digitalocean.com/api_access
+          ssh_key_name: salt
+          ssh_key_file: /root/.ssh/id_rsa
+
+* created `/etc/salt/cloud.profiles.d/digital_ocean.config`
+
+        ny3-micro:
+          provider: do
+          image: 14.04 x64
+          size: 512MB
+          location: New York 3
+          private_networking: True
+
+  * you can run the following to get config details
+
+          `salt-cloud --list-sizes do`
+          `salt-cloud --list-images do`
+          `salt-cloud --list-locations do`
 
 * used saltmine pillar which mines the private ip addresses from the boxes `/srv/pillar/saltmine.sls`
 
@@ -59,6 +82,9 @@ The states provided are:
             mine_function: network.ip_addrs
             cidr: 10.32.0.0/16 # change this according to your local network cidr
 
+  * the cidr `/16` references that the first 16 bits are static while the rest are ignored (the `.0.0` part)
+  while `/32` would mean the entire IP matters
+
 * added `/srv/pillar/top.sls`
 
         base:
@@ -67,13 +93,53 @@ The states provided are:
 
 * spun up an instance
 
-        salt-cloud -p ny3-micro instance
+        salt-cloud -p ny3-micro hostname
 
     * remember to set the hostname to a pattern that will bootstrap the server. for example 'mongodb01' will bootstrap that server with mongodb
 
-* bootstrapped
+### salt api
 
-        salt 'instance' state.highstate
+* created `/etc/salt/master.d/salt-api.conf`
+
+        rest_cherrypy:
+          port: 443
+          host: 0.0.0.0
+          ssl_crt: /etc/ssl/private/cert.pem
+          ssl_key: /etc/ssl/private/key.pem
+          webhook_disable_auth: True
+          webhook_url: /hook
+
+* needed to create self signed keys
+
+        openssl genrsa -out /etc/ssl/private/key.pem 4096
+        openssl req -new -x509 -key /etc/ssl/private/key.pem -out /etc/ssl/private/cert.pem -days 1826
+
+* created `/etc/salt/master.d/reactor.conf`
+
+        reactor:
+          - 'salt/netapi/hook/deploy':
+            - /srv/reactor/deploy.sls
+
+  * `salt/netapi/hook` is a command reference that the reactor looks upon `/deploy` is the end
+  of the webhook url. An example would be `https://0.0.0.0/hook/deploy` would reference it.
+
+* created `/etc/reactor/deploy.sls`
+
+        {% set postdata = data.get('post', {}) %}
+
+        {% if postdata.repository.full_name == 'sjlu/salt-state' %}
+          {% set glob = 'salt*' %}
+        {% endif %}
+
+        {% if glob %}
+        run_deploy:
+          local.state.highstate:
+            - tgt: '{{ glob }}'
+        {% endif %}
+
+  * this will run `state.highstate` on all minions that match that glob
+
+* stolen from [Benjamin Cane](http://bencane.com/2014/07/17/integrating-saltstack-with-other-services-via-salt-api/)
 
 ## pillars
 
