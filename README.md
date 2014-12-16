@@ -26,11 +26,19 @@ The states provided are:
 the salt master pretty much controls all the servers and what is
 applied to them.
 
-* configure salt-master `/etc/salt/master`
-  * change the `interface` to an IP to bind to
-  * look for `fileserver_backend` and enable `git`
-  * enabled `gitfs_remotes` with `https://github.com/sjlu/salt-states`
-  * added `pillar_roots` with `/srv/pillar`
+* changed the following lines in `/etc/salt/master`
+
+        interface: 0.0.0.0
+
+        pillar_roots:
+          base:
+            - /srv/pillar
+
+        gitfs_remotes:
+          - https://github.com/sjlu/salt-states
+
+        fileserver_backend:
+          - git
 
 * to apply your states run highstate
 
@@ -67,9 +75,9 @@ the salt cloud helps provision minions. in my example I use digital ocean
 
   * you can run the following to get config details
 
-          `salt-cloud --list-sizes do`
-          `salt-cloud --list-images do`
-          `salt-cloud --list-locations do`
+          salt-cloud --list-sizes do
+          salt-cloud --list-images do
+          salt-cloud --list-locations do
 
 * used saltmine pillar which mines the private ip addresses from the boxes `/srv/pillar/saltmine.sls`
 
