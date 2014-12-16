@@ -4,8 +4,7 @@ create_log_dir:
     - user: root
     - group: root
     - mode: 777
-{%- if salt['pillar.get']('papertrail') %}
-{%- if salt['pillar.get']('papertrail:port') %}
+{%- if salt['pillar.get']('papertrail') and salt['pillar.get']('papertrail:port') %}
 {%- set port = salt['pillar.get']('papertrail:port') %}
 get_certs:
   pkg.installed:
@@ -63,10 +62,13 @@ remote_syslog_initd:
 remote_syslog_start:
   service:
     - name: remote_syslog
-    - enable: True
     - running
+    - enable: True
     - restart: True
     - watch:
       - file: /etc/log_files.yml
-{%- endif %}
+  cmd.run:
+    - name: service remote_syslog start
+    - unless:
+      - pgrep remote_syslog
 {%- endif %}
