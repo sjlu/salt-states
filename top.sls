@@ -6,7 +6,7 @@ base:
     - fail2ban
     - git
     - papertrail
-  '*node*':
+  '*[worker,web]*':
     - nodejs
     - deploy
   '*nginx*':
