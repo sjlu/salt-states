@@ -31,14 +31,6 @@ create_ssh_key:
   {%- endif %}
 {%- endif %}
 
-create_target_dir:
-  file.directory:
-    - name: {{ target }}
-  {%- if salt['pillar.get']('deploy:user') %}
-    - user: {{ salt['pillar.get']('deploy:user') }}
-    - group: {{ salt['pillar.get']('deploy:user') }}
-  {%- endif %}
-
 do_deploy:
   git.latest:
     - require:
