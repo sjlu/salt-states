@@ -76,15 +76,17 @@ reboot_app:
   {%- endif %}
 {%- endif %}
 
-{% if salt['pillar.get']('deploy:files') %}
-write_files:
-  file.recurse:
-    - name: {{ target }}
-    - source: {{ salt['pillar.get']('deploy:files') }}
+{%- if salt['pillar.get']('deploy:files') %}
+{%- for filename, contents in salt['pillar.get']('deploy:files') %}
+write_file_{{file}}:
+  file.managed:
+    - name: {{target}}/{{filename}}
+    - contents: {{contents}}
   {%- if salt['pillar.get']('deploy:user') %}
     - user: {{ salt['pillar.get']('deploy:user') }}
     - group: {{ salt['pillar.get']('deploy:user') }}
   {%- endif %}
+{%- endfor %}
 {%- endif %}
 
 {%- endif %}
