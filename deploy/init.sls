@@ -77,7 +77,7 @@ reboot_app:
 {%- endif %}
 
 {%- if salt['pillar.get']('deploy:files') %}
-{%- for filename, contents in salt['pillar.get']('deploy:files') %}
+{%- for filename, contents in salt['pillar.get']('deploy:files').items() %}
 write_file_{{file}}:
   file.managed:
     - name: {{target}}/{{filename}}
