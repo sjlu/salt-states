@@ -81,7 +81,7 @@ reboot_app:
 write_file_{{filename}}:
   file.managed:
     - name: {{target}}/{{filename}}
-    - contents: {{contents}}
+    - contents_pillar: deploy:files:{{filename}}
   {%- if salt['pillar.get']('deploy:user') %}
     - user: {{ salt['pillar.get']('deploy:user') }}
     - group: {{ salt['pillar.get']('deploy:user') }}
