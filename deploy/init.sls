@@ -45,6 +45,13 @@ do_deploy:
   {%- if salt['pillar.get']('deploy:user') %}
     - user: {{ salt['pillar.get']('deploy:user') }}
   {%- endif %}
+  cmd.run:
+    - name: git submodule update --init
+    - cwd: {{ target }}
+  {%- if salt['pillar.get']('deploy:user') %}
+    - user: {{ salt['pillar.get']('deploy:user') }}
+  {%- endif %}
+  
 
 {% if salt['pillar.get']('deploy:config') %}
 write_config:
