@@ -37,6 +37,7 @@ do_deploy:
       - pkg: git
     - name: {{ salt['pillar.get']('deploy:git', '') }}
     - rev: {{ salt['pillar.get']('deploy:branch', 'master') }}
+    - submodules: true
   {%- if salt['pillar.get']('deploy:ssh_key') %}
     - identity: {{key_path}}/.ssh/id_rsa
   {%- endif %}
