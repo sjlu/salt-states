@@ -46,7 +46,7 @@ do_deploy:
     - user: {{ salt['pillar.get']('deploy:user') }}
   {%- endif %}
   cmd.run:
-    - name: git submodule update --init
+    - name: git submodule init && git submodule sync && git submodule update
     - cwd: {{ target }}
   {%- if salt['pillar.get']('deploy:user') %}
     - user: {{ salt['pillar.get']('deploy:user') }}
@@ -65,25 +65,6 @@ write_config:
     - template: jinja
 {%- endif %}
 
-{%- if salt['pillar.get']('deploy:logs') %}
-symlink_logs:
-  file.symlink:
-    - name: /logs/{{ salt['pillar.get']('deploy:logs').split('/')[-1] }}
-    - target: {{ salt['pillar.get']('deploy:logs') }}
-    - require:
-      - sls: papertrail
-{%- endif %}
-
-{% if salt['pillar.get']('deploy:cmd') %}
-reboot_app:
-  cmd.run:
-    - name: {{ salt['pillar.get']('deploy:cmd') }}
-    - cwd: {{ target }}
-  {%- if salt['pillar.get']('deploy:user') %}
-    - user: {{ salt['pillar.get']('deploy:user') }}
-  {%- endif %}
-{%- endif %}
-
 {%- if salt['pillar.get']('deploy:files') %}
 {%- for filename, contents in salt['pillar.get']('deploy:files').items() %}
 write_file_{{filename}}:
@@ -96,6 +77,29 @@ write_file_{{filename}}:
   {%- endif %}
 {%- endfor %}
 {%- endif %}
+
+{%- if salt['pillar.get']('deploy:logs') %}
+symlink_logs:
+  file.symlink:
+    - name: /logs/{{ salt['pillar.get']('deploy:logs').split('/')[-1] }}
+    - target: {{ salt['pillar.get']('deploy:logs') }}
+    - require:
+      - sls: papertrail
+{%- endif %}
+
+
+
+{% if salt['pillar.get']('deploy:cmd') %}
+reboot_app:
+  cmd.run:
+    - name: {{ salt['pillar.get']('deploy:cmd') }}
+    - cwd: {{ target }}
+  {%- if salt['pillar.get']('deploy:user') %}
+    - user: {{ salt['pillar.get']('deploy:user') }}
+  {%- endif %}
+{%- endif %}
+
+
 
 {%- endif %}
 {%- endif %}
