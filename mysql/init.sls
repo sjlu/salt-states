@@ -6,7 +6,7 @@ mysql:
   pkg.installed:
     - name: mysql-server
   service.running:
-    - name: mysql-server
+    - name: mysqld
     - enable: True
 
 {%- if salt['pillar.get']('mysql:db_name') %}
