@@ -8,8 +8,6 @@ mysql:
   service.running:
     - name: mysql-server
     - enable: True
-    - watch:
-      - pkg: mysqld
 
 {%- if salt['pillar.get']('mysql:db_name') %}
   mysql_database.present:
