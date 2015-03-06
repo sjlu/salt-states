@@ -1,27 +1,45 @@
 ## salt-states
 
-Contains the salt states that I use to provision servers. It is designed to bootstrap servers based on their hostname and inject data using pillars.
+These are some salt states that I use to bootstrap servers and are stateful from your
+pillar data. I assume that all your servers use Ubuntu.
 
-The states provided are:
+All servers get installed with:
+* build-essential
+* fail2ban
+* git
+
+Some of the stateful states are:
 * nginx
   * sets up a load balancer
 * mongodb
   * with replica set support
+* mysql
+  * localhost only
 * nodejs
 * deploys
-  * supports git urls
-  * can run post deploy hook
+  * from git urls
+  * post deploy commands
+  * post deploy hooks
+  * configuration variables
 * papertrail
   * installs remote_syslog2
 * redis
 
-## getting started
+## how this all works
+
+Salt has a master and a minion. For right now, I only use a single master. The master is what
+contains all your states and pillars. When you tell the master to keep its nodes up to date, it
+will execute commands on your minions based on your configuration. These salt states tell your
+master how to keep things up to date, they are basically your recipes. Your pillars are what
+you'll actually touch to configure certain parts of those states.
+
+### first things first
 
 * had to get salt installed
 
         apt-get install salt-master salt-cloud salt-api
 
-### salt master
+### configuring your master
 
 the salt master pretty much controls all the servers and what is
 applied to them.
@@ -38,29 +56,34 @@ applied to them.
           - https://github.com/sjlu/salt-states
 
         fileserver_backend:
+          - roots
           - git
 
-* to apply your states run highstate
+        file_roots:
+          base:
+            - /srv/salt/
 
-        salt '*' state.highstate
+* created the following directory structure
 
-### salt cloud
+        mkdir /srv
+        mkdir /srv/pillar
+        mkdir /srv/reactor
+        mkdir /srv/salt
 
-the salt cloud helps provision minions. in my example I use digital ocean
+### configuring master to auto-provision servers
 
-* configure salt-cloud `/etc/salt/cloud`
-  * appended
+* appended to `/etc/salt/cloud`
 
-          provider: do
-          minion:
-            master: 0.0.0.0 # replace this with your IP
+        provider: do
+        minion:
+          master: 0.0.0.0 # replace this with your instance's public IP address
 
 * created `/etc/salt/cloud.providers.d/digital_ocean.conf`
 
         do:
           provider: digital_ocean
-          client_key: # https://cloud.digitalocean.com/api_access
-          api_key: # https://cloud.digitalocean.com/api_access
+          client_key: xxx # replace with https://cloud.digitalocean.com/api_access
+          api_key: xxx # replace with https://cloud.digitalocean.com/api_access
           ssh_key_name: salt
           ssh_key_file: /root/.ssh/id_rsa
 
@@ -79,7 +102,7 @@ the salt cloud helps provision minions. in my example I use digital ocean
           salt-cloud --list-images do
           salt-cloud --list-locations do
 
-* used saltmine pillar which mines the private ip addresses from the boxes `/srv/pillar/saltmine.sls`
+* edit `/srv/pillar/saltmine.sls`
 
         mine_functions:
           network.ip_addrs: [eth0]
@@ -99,13 +122,11 @@ the salt cloud helps provision minions. in my example I use digital ocean
           '*':
             - saltmine
 
-* spun up an instance
+* spin up a minion
 
         salt-cloud -p ny3-micro hostname
 
-    * remember to set the hostname to a pattern that will bootstrap the server. for example 'mongodb01' will bootstrap that server with mongodb
-
-### salt api
+### configuring salt-api to accept post hooks
 
 * created `/etc/salt/master.d/salt-api.conf`
 
@@ -149,56 +170,24 @@ the salt cloud helps provision minions. in my example I use digital ocean
 
 * stolen from [Benjamin Cane](http://bencane.com/2014/07/17/integrating-saltstack-with-other-services-via-salt-api/)
 
-## pillars
+### configuring your pillars and states
 
-These are just some sample pillars that you're able ot use.
+This is the part where you'll configure `/srv/salt/top.sls` and `/srv/pillar/top.sls` so that
+your master knows what to bootstrap your servers with.
 
-* deploy.sls
+Each and every directory in this repository has it's own README to show you how
+you can configure your pillars accordingly.
 
-        deploy:
-          config:
-            - ENV: production
-          git: git@github.com:sjlu/salt-states.git
-          branch: master
-          target: /path/on/remote/server
-          logs: /path/on/remote/server
-          user: run_as_user
-          cmd: 'post deploy cmd'
-          ssh_key: |
-            -----BEGIN RSA PRIVATE KEY-----
-            -----END RSA PRIVATE KEY-----
-
-* nginx.sls
-
-        nginx:
-          load_balancer:
-            glob: '*'
-            port: 3000
-
-* papertrail.sls
-
-        papertrail:
-          port: 13131 # the port to report to, something like logs.papertrail.com:13131
-
-* mongodb.sls
-
-        mongodb:
-          replica:
-            glob: '*' # glob that matches all your mongo nodes
-            auth: 'changeme' # root password to your mongo instance
-            key: |
-              # generated ssl key
-              # openssl rand -base64 741
-
-* redis.sls
-
-        redis:
-          auth: # auth key
+Here's an [example](EXAMPLE.md) I use to bootstrap a server to deploy code from one of my
+Node projects.
 
 ## notes
 
-* because saltstack runs in parallel for servers, the mongodb slaves could build slower than the master. if that's the case, you'll see an error. all you need to do is re-run and the replica init file will run successfully.
+* because saltstack runs in parallel for servers, the mongodb slaves could build slower than the master.
+if that's the case, you'll see an error. all you need to do is re-run and the replica init file
+will run successfully.
 * built on top of digital ocean in mind
+* mysql state needs some love
 
 ## license
 
