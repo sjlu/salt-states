@@ -1,0 +1,4 @@
+```
+redis:
+  auth: # auth key
+```
