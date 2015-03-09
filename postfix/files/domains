@@ -1,4 +1,4 @@
 {%- set domains = salt['pillar.get']('postfix:virtual_domains') -%}
 {%- for domain in domains -%}
 {{domain}} # domain
-{%- endfor %}
+{% endfor %}
