@@ -1,0 +1,4 @@
+{% set aliases = salt['pillar.get']('postfix:virtual_aliases') %}
+{%- for from,to in aliases.iteritems() %}
+{{from}} {{to}}
+{%- endfor %}
