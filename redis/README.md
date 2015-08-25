@@ -1,4 +1,0 @@
-```
-redis:
-  auth: # auth key
-```

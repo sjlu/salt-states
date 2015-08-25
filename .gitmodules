@@ -1,0 +1,24 @@
+[submodule "users-formula"]
+	path = users-formula
+	url = https://github.com/saltstack-formulas/users-formula.git
+[submodule "build-essential-formula"]
+	path = build-essential-formula
+	url = https://github.com/saltstack-formulas/build-essential-formula.git
+[submodule "openssh-formula"]
+	path = openssh-formula
+	url = https://github.com/saltstack-formulas/openssh-formula.git
+[submodule "fail2ban-formula"]
+	path = fail2ban-formula
+	url = https://github.com/saltstack-formulas/fail2ban-formula
+[submodule "hostsfile-formula"]
+	path = hostsfile-formula
+	url = https://github.com/saltstack-formulas/hostsfile-formula.git
+[submodule "git-formula"]
+	path = git-formula
+	url = https://github.com/saltstack-formulas/git-formula.git
+[submodule "papertrail-formula"]
+	path = papertrail-formula
+	url = https://github.com/sjlu/papertrail-formula.git
+[submodule "php-formula"]
+	path = php-formula
+	url = https://github.com/saltstack-formulas/php-formula.git
