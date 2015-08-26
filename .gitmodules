@@ -28,3 +28,12 @@
 [submodule "media-formula"]
 	path = media-formula
 	url = https://github.com/sjlu/media-formula.git
+[submodule "couchpotato-formula"]
+	path = couchpotato-formula
+	url = https://github.com/sjlu/couchpotato-formula.git
+[submodule "sabnzbdplus-formula"]
+	path = sabnzbdplus-formula
+	url = https://github.com/sjlu/sabnzbdplus-formula.git
+[submodule "sickbeard-formula"]
+	path = sickbeard-formula
+	url = https://github.com/sjlu/sickbeard-formula.git
