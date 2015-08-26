@@ -22,3 +22,6 @@
 [submodule "php-formula"]
 	path = php-formula
 	url = https://github.com/saltstack-formulas/php-formula.git
+[submodule "apache-formula"]
+	path = apache-formula
+	url = https://github.com/saltstack-formulas/apache-formula.git
