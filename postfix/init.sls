@@ -1,11 +1,8 @@
 postfix:
   pkg:
     - installed
-  service:
-    - running
-    - watch:
-      - file: /etc/postfix/main.cf
-      - cmd: reload_postfix
+  service.running:
+    - enable: True
 
 postfix_virtual_config_block:
   file.blockreplace:
@@ -32,8 +29,6 @@ virtual_config:
     - user: root
     - group: root
     - mode: 644
-    - require:
-      - pkg: postfix
 
 /etc/postfix/domains:
   file.managed:
@@ -42,30 +37,21 @@ virtual_config:
     - user: root
     - group: root
     - mode: 644
-    - require:
-      - pkg: postfix
 
 reload_domains:
-  cmd:
-    - run
-    - name: 'postmap /etc/postfix/domains; postfix reload'    
-    - watch:
+  cmd.run:
+    - name: postmap /etc/postfix/domains; postfix reload
+    - onchanges:
       - file: /etc/postfix/domains
-    - require:
-      - pkg: postfix
 
 reload_virtual:
-  cmd:
-    - run
-    - name: 'postmap /etc/postfix/virtual; postfix reload'
-    - watch:
+  cmd.run:
+    - name: postmap /etc/postfix/virtual; postfix reload
+    - onchanges:
       - file: /etc/postfix/virtual
-    - require:
-      - pkg: postfix
 
 reload_postfix:
-  cmd:
-    - run
-    - name: 'postfix reload'
-    - require:
-      - pkg: postfix
+  cmd.run:
+    - name: postfix reload
+    - onchanges:
+      - file: postfix_virtual_config_block
