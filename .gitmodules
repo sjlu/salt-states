@@ -1,47 +1,47 @@
 [submodule "users-formula"]
-	path = users-formula
+	path = .users-formula
 	url = https://github.com/saltstack-formulas/users-formula.git
 [submodule "build-essential-formula"]
-	path = build-essential-formula
+	path = .build-essential-formula
 	url = https://github.com/saltstack-formulas/build-essential-formula.git
 [submodule "openssh-formula"]
-	path = openssh-formula
+	path = .openssh-formula
 	url = https://github.com/saltstack-formulas/openssh-formula.git
 [submodule "fail2ban-formula"]
-	path = fail2ban-formula
+	path = .fail2ban-formula
 	url = https://github.com/saltstack-formulas/fail2ban-formula
 [submodule "hostsfile-formula"]
-	path = hostsfile-formula
+	path = .hostsfile-formula
 	url = https://github.com/saltstack-formulas/hostsfile-formula.git
 [submodule "git-formula"]
-	path = git-formula
+	path = .git-formula
 	url = https://github.com/saltstack-formulas/git-formula.git
 [submodule "papertrail-formula"]
 	path = papertrail-formula
 	url = https://github.com/sjlu/papertrail-formula.git
 [submodule "php-formula"]
-	path = php-formula
+	path = .php-formula
 	url = https://github.com/saltstack-formulas/php-formula.git
 [submodule "media-formula"]
 	path = media-formula
 	url = https://github.com/sjlu/media-formula.git
 [submodule "couchpotato-formula"]
-	path = couchpotato-formula
+	path = .couchpotato-formula
 	url = https://github.com/sjlu/couchpotato-formula.git
 [submodule "sabnzbdplus-formula"]
-	path = sabnzbdplus-formula
+	path = .sabnzbdplus-formula
 	url = https://github.com/sjlu/sabnzbdplus-formula.git
 [submodule "sickbeard-formula"]
-	path = sickbeard-formula
+	path = .sickbeard-formula
 	url = https://github.com/sjlu/sickbeard-formula.git
 [submodule "postfix-formula"]
-	path = postfix-formula
+	path = .postfix-formula
 	url = https://github.com/saltstack-formulas/postfix-formula.git
 [submodule "email-forwarding-formula"]
-	path = email-forwarding-formula
+	path = .email-forwarding-formula
 	url = https://github.com/sjlu/email-forwarding-formula.git
 [submodule "plexmediaserver-formula"]
-	path = plexmediaserver-formula
+	path = .plexmediaserver-formula
 	url = https://github.com/sjlu/plexmediaserver-formula.git
 [submodule ".apache-formula"]
 	path = .apache-formula
