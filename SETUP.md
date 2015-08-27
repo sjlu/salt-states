@@ -67,13 +67,13 @@ ny3-micro:
   private_networking: True
 ```
 
-  * you can run the following to get config details
+    * you can run the following to get config details
 
-  ```
-  salt-cloud --list-sizes do
-  salt-cloud --list-images do
-  salt-cloud --list-locations do
-  ```
+    ```
+    salt-cloud --list-sizes do
+    salt-cloud --list-images do
+    salt-cloud --list-locations do
+    ```
 
 * edit `/srv/pillar/saltmine.sls`
 
