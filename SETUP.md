@@ -34,7 +34,6 @@ you're using Debian 8.1, like I am.
 
 ## Cloud Configuration
 
-
 * appended to `/etc/salt/cloud`
 
   ```
@@ -43,7 +42,9 @@ you're using Debian 8.1, like I am.
     master: 0.0.0.0 # change to master's IP
   ```
 
-* created `/etc/salt/cloud.providers.d/digital_ocean.conf`
+* created cloud provider
+
+  `/etc/salt/cloud.providers.d/digital_ocean.conf`
 
   ```
   do:
@@ -56,7 +57,20 @@ you're using Debian 8.1, like I am.
 
   You can access your API key here: https://cloud.digitalocean.com/api_access
 
-* created `/etc/salt/cloud.profiles.d/digital_ocean.config`
+  `/etc/salt/cloud.providers.d/linode.conf`
+
+  ```
+  linode:
+    provider: linode
+    apikey:
+    ssh_pubkey:
+    ssh_key_file: /root/.ssh/id_rsa
+    password:
+  ```
+
+* created a cloud profile
+
+  `/etc/salt/cloud.profiles.d/digital_ocean.config`
 
   ```
   ny3-micro:
@@ -67,12 +81,23 @@ you're using Debian 8.1, like I am.
     private_networking: True
   ```
 
-* you can run the following to get config details
+  `/etc/salt/cloud.profiles.d/linode.config`
 
   ```
-  salt-cloud --list-sizes do
-  salt-cloud --list-images do
-  salt-cloud --list-locations do
+  1G:
+  provider: linode
+  image: Debian 8.1
+  size: Linode 1024
+  location: Newark, NJ, USA
+  private_ip: True
+  ```
+
+  you can run the following to get config details
+
+  ```
+  salt-cloud --list-sizes
+  salt-cloud --list-images
+  salt-cloud --list-locations
   ```
 
 * edit `/srv/pillar/saltmine.sls`
@@ -148,4 +173,20 @@ you're using Debian 8.1, like I am.
     local.state.highstate:
       - tgt: '{{ glob }}'
   {% endif %}
+  ```
+
+## Minion Configuration
+
+* modified `/etc/salt/minion`
+
+  ```
+  master: 127.0.0.1
+  ```
+
+* modified `minion_id`
+
+* ran commands to accept key into master
+
+  ```
+  salt-key -a minion_id
   ```
