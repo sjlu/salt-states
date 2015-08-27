@@ -43,3 +43,6 @@
 [submodule "plexmediaserver-formula"]
 	path = plexmediaserver-formula
 	url = https://github.com/sjlu/plexmediaserver-formula.git
+[submodule ".apache-formula"]
+	path = .apache-formula
+	url = https://github.com/saltstack-formulas/apache-formula.git
