@@ -99,3 +99,51 @@ you're using Debian 8.1, like I am.
   ```
   salt-cloud -p ny3-micro hostname
   ```
+
+## Reactor Configuration
+
+* created `/etc/salt/master.d/salt-api.conf`
+
+  ```
+  rest_cherrypy:
+    port: 443
+    host: 0.0.0.0
+    ssl_crt: /etc/ssl/private/cert.pem
+    ssl_key: /etc/ssl/private/key.pem
+    webhook_disable_auth: True
+    webhook_url: /hook
+  ```
+
+* needed to create self signed keys
+
+  ```
+  openssl genrsa -out /etc/ssl/private/key.pem 4096
+  openssl req -new -x509 -key /etc/ssl/private/key.pem -out /etc/ssl/private/cert.pem -days 1826
+  ```
+
+* created `/etc/salt/master.d/reactor.conf`
+
+  ```
+  reactor:
+    - 'salt/netapi/hook/deploy':
+      - /srv/reactor/deploy.sls
+  ```
+
+  `salt/netapi/hook` is a command reference that the reactor looks upon `/deploy` is the end
+  of the webhook url. An example would be `https://0.0.0.0/hook/deploy` would reference it.
+
+* created `/etc/reactor/deploy.sls`
+
+  ```
+  {% set postdata = data.get('post', {}) %}
+
+  {% if postdata.repository.full_name == 'sjlu/salt-state' %}
+    {% set glob = 'salt*' %}
+  {% endif %}
+
+  {% if glob %}
+  run_deploy:
+    local.state.highstate:
+      - tgt: '{{ glob }}'
+  {% endif %}
+  ```
