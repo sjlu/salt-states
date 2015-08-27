@@ -17,7 +17,7 @@
 	path = .git-formula
 	url = https://github.com/saltstack-formulas/git-formula.git
 [submodule "papertrail-formula"]
-	path = papertrail-formula
+	path = .papertrail-formula
 	url = https://github.com/sjlu/papertrail-formula.git
 [submodule "php-formula"]
 	path = .php-formula
