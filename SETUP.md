@@ -48,11 +48,13 @@ you're using Debian 8.1, like I am.
   ```
   do:
     provider: digital_ocean
-    client_key: xxx # replace with your key https://cloud.digitalocean.com/api_access
+    client_key: xxx # replace with your key
     api_key: xxx # replace with your key
     ssh_key_name: salt
     ssh_key_file: /root/.ssh/id_rsa # make sure this key exists
   ```
+
+  You can access your API key here: https://cloud.digitalocean.com/api_access
 
 * created `/etc/salt/cloud.profiles.d/digital_ocean.config`
 
