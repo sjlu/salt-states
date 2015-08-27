@@ -23,7 +23,7 @@
 	path = php-formula
 	url = https://github.com/saltstack-formulas/php-formula.git
 [submodule "apache-formula"]
-	path = apache-formula
+	path = .apache-formula/
 	url = https://github.com/saltstack-formulas/apache-formula.git
 [submodule "media-formula"]
 	path = media-formula
@@ -43,3 +43,6 @@
 [submodule "email-forwarding-formula"]
 	path = email-forwarding-formula
 	url = https://github.com/sjlu/email-forwarding-formula.git
+[submodule "plexmediaserver-formula"]
+	path = plexmediaserver-formula
+	url = https://github.com/sjlu/plexmediaserver-formula.git
