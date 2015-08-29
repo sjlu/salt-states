@@ -46,3 +46,6 @@
 [submodule ".apache-formula"]
 	path = .apache-formula
 	url = https://github.com/saltstack-formulas/apache-formula.git
+[submodule ".nvm-formula"]
+	path = .nvm-formula
+	url = https://github.com/adcade/nvm-formula.git
