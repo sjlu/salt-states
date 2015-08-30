@@ -159,7 +159,7 @@ you're using Debian 8.1, like I am.
   `salt/netapi/hook` is a command reference that the reactor looks upon `/deploy` is the end
   of the webhook url. An example would be `https://0.0.0.0/hook/deploy` would reference it.
 
-* created `/etc/reactor/deploy.sls`
+* created `/srv/reactor/deploy.sls`
 
   ```
   {% set postdata = data.get('post', {}) %}
