@@ -49,3 +49,6 @@
 [submodule ".nvm-formula"]
 	path = .nvm-formula
 	url = https://github.com/sjlu/nvm-formula.git
+[submodule ".nginx-formula"]
+	path = .nginx-formula
+	url = https://github.com/saltstack-formulas/nginx-formula.git
