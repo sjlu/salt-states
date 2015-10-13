@@ -52,3 +52,6 @@
 [submodule ".nginx-formula"]
 	path = .nginx-formula
 	url = https://github.com/saltstack-formulas/nginx-formula.git
+[submodule ".node-formula"]
+	path = .node-formula
+	url = https://github.com/saltstack-formulas/node-formula.git
