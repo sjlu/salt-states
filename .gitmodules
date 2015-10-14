@@ -58,3 +58,6 @@
 [submodule ".mongodb-formula"]
 	path = .mongodb-formula
 	url = https://github.com/saltstack-formulas/mongodb-formula.git
+[submodule ".redis-formula"]
+	path = .redis-formula
+	url = https://github.com/saltstack-formulas/redis-formula.git
