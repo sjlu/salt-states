@@ -1,0 +1,14 @@
+{% for user, env in salt['pillar.get']('environment') %}
+  environment-{{user}}:
+    file.append:
+      - text: source ~/.environment
+
+  environment-vars-{{user}}:
+    file.managed:
+      - user: {{user}}
+      - group: {{user}}
+      - name: ~/.environment
+      - template: jinja
+      - mode: 660
+      - source: salt://bootstrap/files/environment
+{% endfor %}

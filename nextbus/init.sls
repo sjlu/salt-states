@@ -5,7 +5,6 @@ nextbus:
     - rev: master
     - submodules: true
     - require:
-      - pkg: php
       - pkg: php-cli
       - pkg: php-curl
     - user: root

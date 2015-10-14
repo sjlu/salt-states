@@ -55,3 +55,6 @@
 [submodule ".node-formula"]
 	path = .node-formula
 	url = https://github.com/saltstack-formulas/node-formula.git
+[submodule ".mongodb-formula"]
+	path = .mongodb-formula
+	url = https://github.com/saltstack-formulas/mongodb-formula.git
