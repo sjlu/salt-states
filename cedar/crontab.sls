@@ -3,4 +3,4 @@ crontab-reboot:
     - name: /etc/cron.d/app
     - mode: 755
     - contents: | 
-        @reboot app ". ~/.profile; ~/latest/deploy.sh"
+        @reboot app ". ~/.profile; cd latest; bash deploy.sh"
