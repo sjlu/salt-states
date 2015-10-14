@@ -61,3 +61,9 @@
 [submodule ".redis-formula"]
 	path = .redis-formula
 	url = https://github.com/saltstack-formulas/redis-formula.git
+[submodule "deployable/.deployable-formula"]
+	path = deployable/.deployable-formula
+	url = git@github.com:sjlu/deployable-formula.git
+[submodule ".deployable-formula"]
+	path = .deployable-formula
+	url = git@github.com:sjlu/deployable-formula.git
