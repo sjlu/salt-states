@@ -6,6 +6,7 @@ profile-env:
     - append_if_not_found: True
     {% if salt['pillar.get']('cedar:environment') %}
     - content: |
+        export PORT=3000
     {%- for key,val in salt['pillar.get']('cedar:environment').iteritems() %}
         export {{key}}={{val}}
     {%- endfor %}

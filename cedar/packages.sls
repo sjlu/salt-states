@@ -37,3 +37,4 @@ cedar-packages:
       - tar
       - telnet
       - zlib1g-dev
+      - git
