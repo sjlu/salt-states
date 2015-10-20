@@ -54,7 +54,7 @@
 	url = https://github.com/saltstack-formulas/nginx-formula.git
 [submodule ".node-formula"]
 	path = .node-formula
-	url = https://github.com/saltstack-formulas/node-formula.git
+	url = git@github.com:sjlu/node-formula.git
 [submodule ".mongodb-formula"]
 	path = .mongodb-formula
 	url = https://github.com/saltstack-formulas/mongodb-formula.git
@@ -67,3 +67,6 @@
 [submodule ".deployable-formula"]
 	path = .deployable-formula
 	url = git@github.com:sjlu/deployable-formula.git
+[submodule ".nodejs-formula"]
+	path = .nodejs-formula
+	url = git@github.com:sjlu/nodejs-formula.git
