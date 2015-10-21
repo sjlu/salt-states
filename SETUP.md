@@ -30,6 +30,7 @@ you're using Debian 8.1, like I am.
   mkdir /srv/pillar
   mkdir /srv/reactor
   mkdir /srv/salt
+  mkdir /srv/runners
   ```
 
 ## Cloud Configuration
@@ -129,31 +130,32 @@ you're using Debian 8.1, like I am.
 
 ## Reactor Configuration
 
+I use the following configuration to handle GitHub webhooks so that I can deploy my projects with ease.
+
 * created `/etc/salt/master.d/salt-api.conf`
 
   ```
   rest_cherrypy:
-    port: 443
+    port: 80
     host: 0.0.0.0
-    ssl_crt: /etc/ssl/private/cert.pem
-    ssl_key: /etc/ssl/private/key.pem
+    disable_ssl: True
     webhook_disable_auth: True
     webhook_url: /hook
-  ```
-
-* needed to create self signed keys
-
-  ```
-  openssl genrsa -out /etc/ssl/private/key.pem 4096
-  openssl req -new -x509 -key /etc/ssl/private/key.pem -out /etc/ssl/private/cert.pem -days 1826
   ```
 
 * created `/etc/salt/master.d/reactor.conf`
 
   ```
   reactor:
-    - 'salt/netapi/hook/deploy':
+    - 'salt/netapi/hook/deploy/*':
       - /srv/reactor/deploy.sls
+    - 'salt/job/*/ret/*':
+      - /srv/reatcor/notify.sls
+      
+    runner_dirs:
+      - /srv/runners
+    
+    state_output: changes
   ```
 
   `salt/netapi/hook` is a command reference that the reactor looks upon `/deploy` is the end
@@ -162,18 +164,44 @@ you're using Debian 8.1, like I am.
 * created `/srv/reactor/deploy.sls`
 
   ```
-  {% set postdata = data.get('post', {}) %}
-
-  {% if postdata.repository.full_name == 'sjlu/salt-state' %}
-    {% set glob = 'salt*' %}
-  {% endif %}
-
-  {% if glob %}
-  run_deploy:
-    local.state.highstate:
-      - tgt: '{{ glob }}'
-  {% endif %}
+  #!py        
+            
+  def run():
+    body = data['body']
+    target = tag.split('/')[-1]
+    return {
+      'webhook-deploy': {
+        'local.state.highstate': [
+          {'tgt': '{0}'.format(target)}                                                     
+        ]   
+      }       
+    }    
   ```
+
+* created `/srv/reactor/notify.sls`
+
+  ```
+  notify:
+    runner.notify.email:
+      - toaddr: my@email.com
+      - data_str: {{ data | yaml_dquote }}
+      - subject: "Salt Job Log: {{ data['jid'] }}"        
+  ```
+  
+* created `/srv/runners/notify.py`
+
+  ```
+  import subprocess
+  import salt.modules.smtp
+          
+  def email(toaddr, data_str, subject='Message from Salt'):
+      data = eval(data_str)
+      body = subprocess.check_output(["salt-run", "jobs.lookup_jid", data['jid']])
+      salt.modules.smtp.send_msg(toaddr, body, subject=subject, server='smtp.mailgun.org', username='', password='')
+      return True  
+  ```
+  
+  * You can get your own mail account from mailgun.org, make sure you fill in the info
 
 ## Minion Configuration
 
